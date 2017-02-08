@@ -1,0 +1,23 @@
+{
+  "name": "slack-notif",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vjuge/slack-notif.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vjuge/slack-notif/issues"
+  },
+  "homepage": "https://github.com/vjuge/slack-notif#readme",
+  "dependencies": {
+    "slack-node": "^0.1.8"
+  }
+}
