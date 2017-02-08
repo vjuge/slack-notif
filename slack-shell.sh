@@ -1,4 +1,5 @@
 #!/bin/bash
+#http://blog.pragbits.com/it/2015/02/09/slack-notifications-via-curl/
 
 function post_to_slack () {
   # format message as a code block ```${msg}```

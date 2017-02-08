@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#https://github.com/course-hero/slacktee
 
 # ----------
 # Default Configuration
