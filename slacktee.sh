@@ -5,7 +5,7 @@
 # Default Configuration
 # ----------
 webhook_url="https://hooks.slack.com/services/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"       # Incoming Webhooks integration URL
-upload_token="xoxp-98811821792-98811821872-138624578309-75a39eaf9cd1b21757984eb672668d9c"      # The user's API authentication token, only used for file uploads
+upload_token="xoxp-98811821792-98811821872-139394484197-56be624665ed99a9c033a560e28c28c7"      # The user's API authentication token, only used for file uploads
 channel="testapi"    # Default channel to post messages. '#' is prepended, if it doesn't start with '#' or '@'.
 tmp_dir="/tmp"       # Temporary file is created in this directory.
 username="slacktee"  # Default username to post messages.
@@ -73,7 +73,7 @@ options:
     -t, --title title_string          This title is added to posts.
     -m, --message-formatting format   Switch message formatting (none|link_names|full).
                                       See https://api.slack.com/docs/formatting for more details.
-    -p, --plain-text                  Don't surround the post with triple backticks.
+    -p, --plain-text                  Don t surround the post with triple backticks.
     -a, --attachment [color]          Use attachment (richly-formatted message)
                                       Color can be 'good','warning','danger' or any hex color code (eg. #439FE0)
                                       See https://api.slack.com/docs/attachments for more details.
@@ -106,6 +106,16 @@ function send_message()
 	wrapped_message=$(echo "$textWrapper\n$message\n$textWrapper")
 	message_attr=""
 	if [[ $message != "" ]]; then
+
+        icon_url=""
+        icon_emoji=""
+        if echo "$icon" | grep -q "^https\?://.*"; then
+            icon_url="$icon"
+        else
+            icon_emoji=":$icon:"
+        fi
+
+
 		if [[ -n $attachment ]]; then
 
 			# Set message color
@@ -129,7 +139,7 @@ function send_message()
 			fi
 
 			if [[ -n $title ]]; then
-				message_attr="$message_attr, \"title\": \"$title\" "
+				message_attr="$message_attr, \"title\": \"$icon_emoji $title\" "
 				# Clear conditional prefix from title
 				title=$orig_title
 			fi
@@ -162,13 +172,7 @@ function send_message()
 			message_attr="\"text\": \"$wrapped_message\","
 		fi
 
-		icon_url=""
-		icon_emoji=""
-		if echo "$icon" | grep -q "^https\?://.*"; then
-			icon_url="$icon"
-		else
-			icon_emoji=":$icon:"
-		fi
+
 
 		username=$(escape_string "$username")
 
@@ -177,7 +181,9 @@ function send_message()
                   \"username\": \"$username\", \
                   $message_attr \"icon_emoji\": \"$icon_emoji\", \
                   \"icon_url\": \"$icon_url\" $parseMode}"
-		post_result=$(curl -X POST --data-urlencode \
+        #echo $json
+
+        post_result=$(curl -X POST --data-urlencode \
                   "payload=$json" "$webhook_url" 2> /dev/null)
                 if [[ $post_result != "ok" ]]; then
                 	err_exit 1 "$post_result"
